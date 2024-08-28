@@ -17,8 +17,8 @@ const Buttons = ({ slice }: ButtonsProps): JSX.Element => {
       data-slice-variation={slice.variation}
       className="buttons"
     >
-      {slice.primary.buttons.map((item) => (
-        <PrismicNextLink field={item.button_link}>
+      {slice.primary.buttons.map((item, i) => (
+        <PrismicNextLink field={item.button_link} key={`button${i}`}>
           {item.button_text}
         </PrismicNextLink>
       ))}
