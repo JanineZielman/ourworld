@@ -1,0 +1,30 @@
+{
+  "id": "section",
+  "type": "SharedSlice",
+  "name": "Section",
+  "description": "Section",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "section": {
+          "type": "Link",
+          "config": {
+            "label": "Section",
+            "select": "document",
+            "customtypes": [
+              "faq",
+              "news"
+            ]
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

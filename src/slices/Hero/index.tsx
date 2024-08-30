@@ -19,7 +19,9 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
       className="hero"
     >
       <PrismicNextImage field={slice.primary.image} />
-      <PrismicRichText field={slice.primary.intro} />
+      <div className="text-wrap">
+        <PrismicRichText field={slice.primary.intro} />
+      </div>
     </section>
   );
 };

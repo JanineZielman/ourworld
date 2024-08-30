@@ -5,6 +5,7 @@ import * as prismic from "@prismicio/client";
 
 import { createClient } from "@/prismicio";
 import { components } from "@/slices";
+import { PrismicRichText } from "@prismicio/react";
 
 // This component renders your homepage.
 //
@@ -29,7 +30,19 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Index() {
   // The client queries content from the Prismic API
   const client = createClient();
-  const home = await client.getByUID("page", "home");
-
-  return <SliceZone slices={home.data.slices} components={components} />;
+  const home = await client.getByUID("page", "home", {
+        fetchLinks: `faq.title, faq.questions, newsitem.title, newsitem.date, newsitem.image, newsitem.video`
+  });
+  const settings = await client.getByType("settings");
+  console.log(settings.results[0].data.mail)
+  return (
+    <div>
+      <SliceZone slices={home.data.slices} components={components} />
+      <footer>
+        <a href={`mailto:${settings.results[0].data.mail}`}>{settings.results[0].data.mail}</a>
+        <br/><br/>
+        <PrismicRichText field={settings.results[0].data.footer_text}/>
+      </footer>
+    </div>
+  );
 }

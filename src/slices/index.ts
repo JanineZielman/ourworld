@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 
 export const components = {
   buttons: dynamic(() => import("./Buttons")),
+  featured_news: dynamic(() => import("./FeaturedNews")),
   hero: dynamic(() => import("./Hero")),
   rich_text: dynamic(() => import("./RichText")),
+  section: dynamic(() => import("./Section")),
 };

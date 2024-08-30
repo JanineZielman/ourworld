@@ -1,0 +1,47 @@
+{
+  "id": "featured_news",
+  "type": "SharedSlice",
+  "name": "FeaturedNews",
+  "description": "FeaturedNews",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "docURL": "...",
+      "version": "initial",
+      "description": "Default",
+      "imageUrl": "",
+      "primary": {
+        "title": {
+          "type": "StructuredText",
+          "config": {
+            "label": "Title",
+            "placeholder": "",
+            "allowTargetBlank": true,
+            "multi": "heading1"
+          }
+        },
+        "news": {
+          "type": "Group",
+          "config": {
+            "label": "News",
+            "repeat": true,
+            "fields": {
+              "news_item": {
+                "type": "Link",
+                "config": {
+                  "label": "News Item",
+                  "select": "document",
+                  "customtypes": [
+                    "newsitem"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

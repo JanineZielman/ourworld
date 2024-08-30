@@ -112,6 +112,78 @@ interface FaqDocumentData {
 export type FaqDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithoutUID<Simplify<FaqDocumentData>, "faq", Lang>;
 
+type NewsDocumentDataSlicesSlice = never;
+
+/**
+ * Content for News documents
+ */
+interface NewsDocumentData {
+  /**
+   * Title field in *News*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: news.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * Slice Zone field in *News*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: news.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<NewsDocumentDataSlicesSlice> /**
+   * Meta Title field in *News*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: news.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *News*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: news.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *News*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: news.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * News document from Prismic
+ *
+ * - **API ID**: `news`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type NewsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<Simplify<NewsDocumentData>, "news", Lang>;
+
 type NewsitemDocumentDataSlicesSlice = never;
 
 /**
@@ -121,13 +193,13 @@ interface NewsitemDocumentData {
   /**
    * Title field in *NewsItem*
    *
-   * - **Field Type**: Title
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
    * - **API ID Path**: newsitem.title
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  title: prismic.TitleField;
+  title: prismic.RichTextField;
 
   /**
    * Image field in *NewsItem*
@@ -141,26 +213,26 @@ interface NewsitemDocumentData {
   image: prismic.ImageField<never>;
 
   /**
-   * Text field in *NewsItem*
+   * Video field in *NewsItem*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Link to Media
    * - **Placeholder**: *None*
-   * - **API ID Path**: newsitem.text
+   * - **API ID Path**: newsitem.video
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  text: prismic.RichTextField;
+  video: prismic.LinkToMediaField;
 
   /**
-   * Embed field in *NewsItem*
+   * Date field in *NewsItem*
    *
-   * - **Field Type**: Embed
+   * - **Field Type**: Date
    * - **Placeholder**: *None*
-   * - **API ID Path**: newsitem.embed
+   * - **API ID Path**: newsitem.date
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#embed
+   * - **Documentation**: https://prismic.io/docs/field#date
    */
-  embed: prismic.EmbedField;
+  date: prismic.DateField;
 
   /**
    * Slice Zone field in *NewsItem*
@@ -221,7 +293,11 @@ export type NewsitemDocument<Lang extends string = string> =
     Lang
   >;
 
-type PageDocumentDataSlicesSlice = ButtonsSlice | HeroSlice;
+type PageDocumentDataSlicesSlice =
+  | FeaturedNewsSlice
+  | SectionSlice
+  | ButtonsSlice
+  | HeroSlice;
 
 /**
  * Content for Page documents
@@ -299,39 +375,6 @@ type SettingsDocumentDataSlicesSlice = never;
  * Content for Settings documents
  */
 interface SettingsDocumentData {
-  /**
-   * Title field in *Settings*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: settings.title
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  title: prismic.KeyTextField;
-
-  /**
-   * Description field in *Settings*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: settings.description
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  description: prismic.KeyTextField;
-
-  /**
-   * Image field in *Settings*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: settings.image
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-
   /**
    * Mail field in *Settings*
    *
@@ -415,6 +458,7 @@ export type SettingsDocument<Lang extends string = string> =
 
 export type AllDocumentTypes =
   | FaqDocument
+  | NewsDocument
   | NewsitemDocument
   | PageDocument
   | SettingsDocument;
@@ -487,6 +531,76 @@ type ButtonsSliceVariation = ButtonsSliceDefault;
 export type ButtonsSlice = prismic.SharedSlice<
   "buttons",
   ButtonsSliceVariation
+>;
+
+/**
+ * Item in *FeaturedNews → Default → Primary → News*
+ */
+export interface FeaturedNewsSliceDefaultPrimaryNewsItem {
+  /**
+   * News Item field in *FeaturedNews → Default → Primary → News*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_news.default.primary.news[].news_item
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  news_item: prismic.ContentRelationshipField<"newsitem">;
+}
+
+/**
+ * Primary content in *FeaturedNews → Default → Primary*
+ */
+export interface FeaturedNewsSliceDefaultPrimary {
+  /**
+   * Title field in *FeaturedNews → Default → Primary*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_news.default.primary.title
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  title: prismic.RichTextField;
+
+  /**
+   * News field in *FeaturedNews → Default → Primary*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: featured_news.default.primary.news[]
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  news: prismic.GroupField<Simplify<FeaturedNewsSliceDefaultPrimaryNewsItem>>;
+}
+
+/**
+ * Default variation for FeaturedNews Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FeaturedNewsSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<FeaturedNewsSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *FeaturedNews*
+ */
+type FeaturedNewsSliceVariation = FeaturedNewsSliceDefault;
+
+/**
+ * FeaturedNews Shared Slice
+ *
+ * - **API ID**: `featured_news`
+ * - **Description**: FeaturedNews
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type FeaturedNewsSlice = prismic.SharedSlice<
+  "featured_news",
+  FeaturedNewsSliceVariation
 >;
 
 /**
@@ -586,6 +700,51 @@ export type RichTextSlice = prismic.SharedSlice<
   RichTextSliceVariation
 >;
 
+/**
+ * Primary content in *Section → Default → Primary*
+ */
+export interface SectionSliceDefaultPrimary {
+  /**
+   * Section field in *Section → Default → Primary*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: section.default.primary.section
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  section: prismic.ContentRelationshipField<"faq" | "news">;
+}
+
+/**
+ * Default variation for Section Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SectionSliceDefault = prismic.SharedSliceVariation<
+  "default",
+  Simplify<SectionSliceDefaultPrimary>,
+  never
+>;
+
+/**
+ * Slice variation for *Section*
+ */
+type SectionSliceVariation = SectionSliceDefault;
+
+/**
+ * Section Shared Slice
+ *
+ * - **API ID**: `section`
+ * - **Description**: Section
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SectionSlice = prismic.SharedSlice<
+  "section",
+  SectionSliceVariation
+>;
+
 declare module "@prismicio/client" {
   interface CreateClient {
     (
@@ -600,6 +759,9 @@ declare module "@prismicio/client" {
       FaqDocumentData,
       FaqDocumentDataQuestionsItem,
       FaqDocumentDataSlicesSlice,
+      NewsDocument,
+      NewsDocumentData,
+      NewsDocumentDataSlicesSlice,
       NewsitemDocument,
       NewsitemDocumentData,
       NewsitemDocumentDataSlicesSlice,
@@ -615,6 +777,11 @@ declare module "@prismicio/client" {
       ButtonsSliceDefaultPrimary,
       ButtonsSliceVariation,
       ButtonsSliceDefault,
+      FeaturedNewsSlice,
+      FeaturedNewsSliceDefaultPrimaryNewsItem,
+      FeaturedNewsSliceDefaultPrimary,
+      FeaturedNewsSliceVariation,
+      FeaturedNewsSliceDefault,
       HeroSlice,
       HeroSliceDefaultPrimary,
       HeroSliceVariation,
@@ -623,6 +790,10 @@ declare module "@prismicio/client" {
       RichTextSliceDefaultPrimary,
       RichTextSliceVariation,
       RichTextSliceDefault,
+      SectionSlice,
+      SectionSliceDefaultPrimary,
+      SectionSliceVariation,
+      SectionSliceDefault,
     };
   }
 }

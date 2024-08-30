@@ -18,7 +18,7 @@
           "label": "Title",
           "placeholder": "",
           "allowTargetBlank": true,
-          "single": "heading1"
+          "multi": "paragraph"
         }
       },
       "image": {
@@ -31,19 +31,18 @@
           "thumbnails": []
         }
       },
-      "text": {
-        "type": "StructuredText",
+      "video": {
+        "type": "Link",
         "config": {
-          "label": "Text",
+          "label": "Video",
           "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "paragraph,strong,em,hyperlink,list-item,o-list-item"
+          "select": "media"
         }
       },
-      "embed": {
-        "type": "Embed",
+      "date": {
+        "type": "Date",
         "config": {
-          "label": "Embed",
+          "label": "Date",
           "placeholder": ""
         }
       },
