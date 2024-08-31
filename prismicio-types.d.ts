@@ -294,6 +294,7 @@ export type NewsitemDocument<Lang extends string = string> =
   >;
 
 type PageDocumentDataSlicesSlice =
+  | RichTextSlice
   | FeaturedNewsSlice
   | SectionSlice
   | ButtonsSlice
