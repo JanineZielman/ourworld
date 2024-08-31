@@ -34,7 +34,7 @@ export default async function Index() {
         fetchLinks: `faq.title, faq.questions, newsitem.title, newsitem.date, newsitem.image, newsitem.video`
   });
   const settings = await client.getByType("settings");
-  console.log(settings.results[0].data.mail)
+
   return (
     <div>
       <SliceZone slices={home.data.slices} components={components} />
