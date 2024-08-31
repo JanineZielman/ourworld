@@ -40,6 +40,7 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Params }) {
   const client = createClient();
+  const settings = await client.getByType("settings");
   const page = await client
     .getByUID("page", params.uid)
     .catch(() => notFound());
@@ -48,6 +49,11 @@ export default async function Page({ params }: { params: Params }) {
     <div className="page">
       <PrismicRichText field={page.data.title}/>
       <SliceZone slices={page.data.slices} components={components} />
+      <footer>
+        <a href={`mailto:${settings.results[0].data.mail}`}>{settings.results[0].data.mail}</a>
+        <br/><br/>
+        <PrismicRichText field={settings.results[0].data.footer_text}/>
+      </footer>
     </div>
   );
 }
