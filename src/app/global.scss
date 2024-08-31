@@ -25,7 +25,7 @@ body{
   img{
     width: 85%;
     height: auto;
-    max-height: 46vh;
+    max-height: 35vh;
     padding-left: 10%;
   }
   text-align: center;
@@ -66,11 +66,11 @@ p{
     font-size: 36px;
     font-family: "Ubuntu", system-ui;
   }
-  :nth-child(2n){
+  :nth-child(2n + 1){
     background-color: $primary;
     color: $secondary;
   }
-  :nth-child(2n + 1){
+  :nth-child(2n){
     background-color: $secondary;
     color: $primary;
   }
@@ -93,6 +93,12 @@ p{
   }
   .collapsible-header-edonec, .collapsible-content-edonec{
     border-bottom: none!important;
+  }
+  .title-text-edonec{
+    margin: 0;
+  }
+  .collapsible-content-padding-edonec{
+    padding-top: 0;
   }
   .title-text-edonec{
     color: $primary;
