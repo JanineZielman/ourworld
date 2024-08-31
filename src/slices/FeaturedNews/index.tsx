@@ -24,17 +24,17 @@ const FeaturedNews = ({ slice }: FeaturedNewsProps): JSX.Element => {
         <img className="icon" src="https://ourworld.cdn.prismic.io/ourworld/ZtHEaEaF0TcGJlut_world.svg"/>
         <PrismicRichText field={slice.primary.title}/>
         {slice.primary.news.map((item:any, i:number) => {
-          var newsDate  = new Date(item.news_item.data.date);
+          var newsDate  = new Date(item.news_item.data?.date);
           return(
             <div className="news-item" key={`newsitem${i}`}>
-              <img src={item.news_item.data.image?.url}/>
-              {item.news_item.data.video?.url &&
+              <img src={item.news_item.data?.image?.url}/>
+              {item.news_item.data?.video?.url &&
                 <video width="320" height="240" controls>
                   <source src={item.news_item.data.video?.url} type="video/mp4"/>
                 </video>
               }
               <div className="date"><b>{newsDate.toLocaleDateString("en-US", options)}</b></div>
-              <PrismicRichText field={item.news_item.data.title}/>
+              <PrismicRichText field={item.news_item.data?.title}/>
             </div>
           )
         })}
