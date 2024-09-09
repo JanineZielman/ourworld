@@ -30,6 +30,13 @@
             "allowTargetBlank": true,
             "multi": "paragraph,strong,em,heading1,hyperlink,list-item,o-list-item"
           }
+        },
+        "embed": {
+          "type": "Embed",
+          "config": {
+            "label": "Embed",
+            "placeholder": ""
+          }
         }
       },
       "items": {}

@@ -37,6 +37,10 @@ export default async function Index() {
 
   return (
     <div>
+      <div className="nav">
+        <img className="logo" src={settings.results[0].data.logo.url}/>
+        <a href="/">{settings.results[0].data.title}</a>
+      </div>
       <SliceZone slices={home.data.slices} components={components} />
       <footer>
         <a href={`mailto:${settings.results[0].data.mail}`}>{settings.results[0].data.mail}</a>
